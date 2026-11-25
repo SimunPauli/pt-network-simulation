@@ -1,0 +1,41 @@
+{
+  "request": {
+    "otp_url": "http://localhost:8080/otp/gtfs/v1",
+    "max_itinerary_candidates": 30,
+    "request_timeout": 60,
+    "print_query": false
+  },
+  "choice_set": {
+    "search_window": "PT60M",
+    "alternative_key": "routes_stops",
+    "exclude_stops": {
+      "steps": [
+        {"rounds": 5, "stops_per_round": 1},
+        {"rounds": 3, "stops_per_round": 2}
+      ],
+      "seed": 2026
+    },
+    "exclude_routes": {
+      "steps": [
+        {"rounds": 5, "routes_per_round": 1},
+        {"rounds": 3, "routes_per_round": 2}
+      ],
+      "seed": 2026
+    },
+    "fixed_costs": [],
+    "random_costs": {
+      "rounds": 5,
+      "walk_reluctance": [1, 8],
+      "wait_reluctance": [0.25, 4],
+      "transit_reluctance": [0.2, 5],
+      "transfer_cost": [0, 1800],
+      "seed": 2026
+    },
+    "only_modes": [["BUS"], ["SUBWAY", "S_TRAIN", "RAIL", "TRAM"]],
+    "exclude_targeted": {
+      "all": 5,
+      "first": 5,
+      "last": 5
+    }
+  }
+}

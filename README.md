@@ -18,7 +18,7 @@ plain trips, so any travel survey can use it through its own adapter.
 ## Install
 
 ```bash
-pip install "pt-network-simulation @ git+https://github.com/<owner>/pt-network-simulation@v0.1.0"
+pip install "pt-network-simulation @ git+https://github.com/SimunPauli/pt-network-simulation@v0.1.0"
 ```
 
 While developing it alongside a survey adapter: `pip install -e ../pt-network-simulation`.

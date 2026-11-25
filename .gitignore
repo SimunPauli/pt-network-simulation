@@ -5,3 +5,5 @@ dist/
 .venv/
 .idea/
 config.json
+.claude
+

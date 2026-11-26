@@ -69,7 +69,7 @@ def _line_group_route(mode, name):
 def _itinerary_keys(legs, key_columns):
 	"""{iteration_id: tuple of its transit legs' key_columns, in leg order}."""
 	transit = legs[~legs["mode"].isin(STREET_MODES)].sort_values("leg_id")
-	keys = transit[key_columns].fillna("").astype(str)
+	keys = transit[key_columns].astype(object).fillna("").astype(str)  # object: all-NaN columns are float64
 	return {
 		iteration_id: tuple(map(tuple, rows.to_numpy()))
 		for iteration_id, rows in keys.groupby(transit["iteration_id"])

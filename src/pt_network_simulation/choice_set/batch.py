@@ -22,6 +22,13 @@ class ThreadStdout(io.TextIOBase):
 		self.real.flush()
 
 
+def _location(location):
+	"""An OTP query location as "lat lon" (5 decimals), or "stop <id>"."""
+	if "coordinate" in location:
+		return f"{location['coordinate']['latitude']:.5f} {location['coordinate']['longitude']:.5f}"
+	return f"stop {location['stopLocation']['stopLocationId']}"
+
+
 def generate_choice_sets(trips, config, max_workers=1):
 	"""
 	Choice sets for trips (dicts of trip_choice_set's arguments except config), concatenated in trip order.
@@ -34,11 +41,18 @@ def generate_choice_sets(trips, config, max_workers=1):
 		stdout.local.buffer = io.StringIO()
 		otp.client.trace.id = f"trip_id={trip['trip_id']}"
 		try:
+			print(f"\n\n-------------------------------------------------------------------------------------------------------------------")
+			print(f"\ntrip_id: {trip['trip_id']}")
+			print(f"Origin (lat lon):      {_location(trip['origin'])}")
+			print(f"Destination (lat lon): {_location(trip['destination'])}")
+			chosen_legs = trip.get("chosen_legs")
+			arrival = "" if chosen_legs is None else f". Chosen arrival: {chosen_legs['end_trip'].iloc[-1]}"
+			print(f"Depart: {trip['depart_dt']:%Y-%m-%dT%H:%M:%S%z}{arrival}.")
 			choice_set = trip_choice_set(**trip, config=config)
 			print_choice_set(choice_set)
-			print(f"Trip {trip['trip_id']}: {choice_set['alt_id'].max()} alternative(s) besides the chosen")
+			print(f"trip_id {trip['trip_id']}: {choice_set['alt_id'].max()} alternative(s) besides the chosen")
 		except Exception as exc:
-			print(f"Skipping trip {trip['trip_id']} due to unexpected error: {exc}")
+			print(f"Skipping trip_id {trip['trip_id']} due to unexpected error: {exc}")
 			choice_set = None
 		finally:
 			output = stdout.local.buffer.getvalue()

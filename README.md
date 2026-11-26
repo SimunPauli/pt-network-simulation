@@ -18,8 +18,11 @@ plain trips, so any travel survey can use it through its own adapter.
 ## Install
 
 ```bash
-pip install "pt-network-simulation @ git+https://github.com/SimunPauli/pt-network-simulation@v0.1.0"
+pip install "pt-network-simulation @ git+https://github.com/SimunPauli/pt-network-simulation"
 ```
+
+For reproducible results, pin a release by appending its tag, e.g. `...pt-network-simulation@v0.1.0` (see the
+repository's Releases for the latest).
 
 While developing it alongside a survey adapter: `pip install -e ../pt-network-simulation`.
 
@@ -171,7 +174,8 @@ Making these configurable is planned; for now:
 
 `examples/synthetic_od_check.py` is a recall check on 12 Danish origin-destination pairs: per pair it compares
 the choice set with an oracle that forces each route, or pair of routes, serving stops near the origin and
-destination, and reports which plausible alternatives the choice set misses.
+destination, and reports which plausible alternatives the choice set misses. See `examples/README.md` for
+the method and output.
 
 ```bash
 python examples/synthetic_od_check.py config.json <out_dir>
